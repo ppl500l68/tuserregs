@@ -7,11 +7,12 @@ $password=$_POST['password'];
 $button=$_POST['save'];
 
 if($button=='Save!'){
-   $dbhost='localhost';
-   $dbuser='root';
-   $dbpwrd='';
-   $dbname='regdb';
-        $conn=mysqli_connect($dbhost, $dbuser, $dbpwrd, $dbname) 
+   $url = parse_url(getenv("CLEARDB_DATABASE_URL")); 
+   $server = $url["host"];
+   $username= $url["user"];
+   $password= $url["pass"];
+   $db = substr($url["path"],1);
+        $conn = new mysqli($server, $username, $password, $db) 
             or die('MySql Connection Failed...'.mysqli_error());
         if(!$conn){    
             die("Connection Failed:".mysqli_error());
